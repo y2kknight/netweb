@@ -1,5 +1,7 @@
+# os module allows system interaction
 import os
 
+# Utilized a raw string so python ignores slashes
 ascii_art = r"""    
    ________  ________  ________  ________  ________  ________
   ╱    ╱   ╲╱        ╲╱        ╲╱  ╱  ╱  ╲╱        ╲╱       ╱
@@ -10,16 +12,33 @@ ascii_art = r"""
 
 print(ascii_art)
 
-website = input("Please enter a website URL: ")
-response = os.system(f"ping -n 4 {website}")
+print("""Options:
+        1 - ping
+        2 - tracert""")
 
-if response == 0:
-    print(f"{website} is reachable")
-else:
-    print(f"{website} is not reachable")
+choice = input("Please choose a number: ")
+
+website = input("Please enter a URL: ")
+
+# Initialize response to avoid NameError
+response = None
+
+# "system" function from os module allows me to use system commands
+# Utilized an f string to embed website variable into the string
+if choice == "1":
+    response = os.system(f"ping -n 4 {website}")
+
+    if response == 0:
+        print(f"{website} is reachable")
+
+# A successful ping command has an exit code of 0
+    else:
+        print(f"{website} is not reachable")
+
+elif choice == "2": 
+    os.system(f"tracert {website}")
+else: 
+    print("Invalid choice. Please choose 1 or 2.")
+# tracert does not produce an exit code so no need to verify equality with response
 
 input("Press Enter to exit...")
-
-
-
-
